@@ -1,8 +1,7 @@
 import jwt from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
-import { invalidTokenError, unauthorizedError } from "./errorHandler.js";
-import { token, userRepository } from "../Repositories/userRepository.js";
-import { compare } from "../Utils/encryptUtils.js";
+import { unauthorizedError } from "./errorHandler.js";
+import { token } from "../Repositories/userRepository.js";
 
 export default async function validToken(req:Request,res:Response,next:NextFunction){
     const { authorization } = req.headers;    
