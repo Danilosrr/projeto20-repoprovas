@@ -1,11 +1,11 @@
 import { Router } from "express";
 import { signIn, signUp } from "../Controllers/userController.js";
 import validSchema from "../Middlewares/validateSchema.js";
-import { userSchema } from "../Schemas/userSchema.js";
+import { signInSchema, signUpSchema } from "../Schemas/userSchema.js";
 
 const userRouter = Router()
 
-userRouter.post('/signin', validSchema(userSchema), signIn)
-userRouter.post('/signup', validSchema(userSchema), signUp)
+userRouter.post('/signin', validSchema(signInSchema), signIn)
+userRouter.post('/signup', validSchema(signUpSchema), signUp)
 
 export default userRouter;

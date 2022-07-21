@@ -2,6 +2,9 @@ import { User } from "@prisma/client";
 import { prisma } from "../config/database.js";
 
 export type createUser = Omit<User,"id">
+export type bodyUser = createUser & {
+    confirmPassword: string
+}
 export type token = {
     id: number
     email: string
