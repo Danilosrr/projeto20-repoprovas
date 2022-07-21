@@ -25,8 +25,7 @@ async function queryByTerm(){
                                 some: { name: {} },
                             },
                         },
-                        include: {
-                            discipline: {},
+                        select: {
                             Test: { include: { 
                                 category: {},
                                 teacherDiscipline: {
@@ -44,18 +43,7 @@ async function queryByTerm(){
 }
 
 async function queryByDiscipline(name:string){
-    return await prisma.discipline.findMany({
-        where: {name},
-        select: {
-            TeachersDisciplines: { select: {
-                Test: {
-                    include: {
-                        category: { select: { name: true}}
-                    }
-                }
-            } }
-        }
-    });
+
 }
 
 async function createTest(createTest:createTest){
@@ -69,31 +57,3 @@ export const testRepository = {
     createTest,
     findByTerms
 }
-/*
-where: {
-    id
-},
-include: { 
-    TeachersDisciplines: { 
-        select: { 
-            discipline: {
-                select:{
-                    name: true,
-                    termId: true
-                }
-            },
-            Test: {
-                select: {
-                    id: true, 
-                    name: true, 
-                    pdfUrl: true, 
-                    categoryId: true, 
-                    teacherDisciplineId: true,
-                    category: {
-                        select: { name: true }
-                    }
-                }
-            } 
-        }
-    }
-}*/

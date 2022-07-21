@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { addTest, queryByTerm } from "../Controllers/testController.js";
+import { addTest, queryTests } from "../Controllers/testController.js";
 
 const testRouter = Router()
 
-testRouter.get('/test/term', queryByTerm);
-testRouter.post('/test', addTest)
+testRouter.get('/tests', queryTests);
+testRouter.post('/tests', addTest)
 
 export default testRouter;

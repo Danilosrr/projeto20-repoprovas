@@ -1,6 +1,6 @@
 import { createTest, testRepository } from "../Repositories/testRepository.js";
 
-async function queryByTerm(){
+async function queryByDiscipline(){
     const query = await testRepository.queryByTerm();
 
     const disciplines = await query.map( term => {
@@ -9,14 +9,22 @@ async function queryByTerm(){
             disciplines: term.Discipline.map( discipline =>{
                 return {
                     name: discipline.name,
-                    tests: discipline.TeachersDisciplines.map( test =>{ 
-                        return test.Test
-                    })
+                    tests: discipline.TeachersDisciplines.map( test =>{
+                        return test.Test.map(data =>{
+                            return {
+                                id: data.id,
+                                name: data.name,
+                                pdfUrl: data.pdfUrl,
+                                category: data.category.name,
+                                teacher: data.teacherDiscipline.teacher.name
+                            }
+                        })
+                    }).flat(1)
                 }
             })
         }  
     })
-
+    
     return disciplines;
 }
 
@@ -27,6 +35,6 @@ async function createTest(test:createTest) {
 }
 
 export const testServices = {
-    queryByTerm,
+    queryByDiscipline,
     createTest,
 }
