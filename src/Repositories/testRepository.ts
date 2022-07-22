@@ -9,12 +9,30 @@ async function findByName(name:string){
     });
 }
 
-async function findByTerms(){
-
+async function queryByTeacher(){
+    return await prisma.teacher.findMany({
+        select: {id: true, name: true,
+            TeachersDisciplines: { 
+                where: {
+                    Test: {
+                        some: { name: {} }
+                    }
+                },
+                select: {
+                    Test: { include: { 
+                        category: {},
+                        teacherDiscipline: { select: { 
+                            teacher: {}
+                        }}
+                    }}        
+                }
+            }
+        }
+    })
 }
 
 async function queryByTerm(){
-    return prisma.term.findMany({
+    return await prisma.term.findMany({
         orderBy: { number: "asc" },
         include: {
             Discipline: {
@@ -42,18 +60,13 @@ async function queryByTerm(){
     });
 }
 
-async function queryByDiscipline(name:string){
-
-}
-
 async function createTest(createTest:createTest){
     return await prisma.test.create({ data:createTest });
 }
 
 export const testRepository = {
     findByName,
+    queryByTeacher,
     queryByTerm,
-    queryByDiscipline,
-    createTest,
-    findByTerms
+    createTest
 }
