@@ -1,4 +1,5 @@
 import { createTest, testRepository } from "../Repositories/testRepository.js";
+import { groupBy } from "../Utils/groupUtils.js";
 
 async function queryByDiscipline(){
     const query = await testRepository.queryByTerm();
@@ -24,7 +25,13 @@ async function queryByDiscipline(){
             })
         }  
     })
-    
+
+    disciplines.forEach(el => {
+        el.disciplines.forEach(discipline => {
+            discipline.tests = groupBy('category')(discipline.tests);
+        });
+    });
+
     return disciplines;
 }
 
