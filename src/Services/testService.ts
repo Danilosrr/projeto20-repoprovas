@@ -1,8 +1,13 @@
-import { createTest, testRepository } from "../Repositories/testRepository.js";
+import { forbiddenError, notFoundError } from "../Middlewares/errorHandler.js";
+import { categoryRepository } from "../Repositories/categoriesRepository.js";
+import { disciplineRepository } from "../Repositories/disciplinesRepository.js";
+import { teacherRepository } from "../Repositories/teachersRepository.js";
+import { termRepository } from "../Repositories/termRepository.js";
+import { bodyTest, createTest, testRepository } from "../Repositories/testRepository.js";
 import { groupBy } from "../Utils/groupUtils.js";
 
 async function queryByDiscipline(){
-    const query = await testRepository.queryByTerm();
+    const query = await termRepository.queryByTerm();
 
     const disciplines = query.map( term => {
         return { 
@@ -36,7 +41,7 @@ async function queryByDiscipline(){
 }
 
 async function queryByTeacher() {
-    const query = await testRepository.queryByTeacher();
+    const query = await teacherRepository.queryByTeacher();
 
     const teachers = query.map( teacher => { 
         return {
@@ -49,7 +54,8 @@ async function queryByTeacher() {
                         name: data.name,
                         pdfUrl: data.pdfUrl,
                         category: data.category.name,
-                        teacher: data.teacherDiscipline.teacher.name
+                        teacher: data.teacherDiscipline.teacher.name,
+                        discipline: data.teacherDiscipline.discipline.name
                     }
                 })
             }).flat(1)
@@ -64,8 +70,30 @@ async function queryByTeacher() {
     return teachers;
 }
 
-async function createTest(test:createTest) {
-    const query = await testRepository.createTest(test)
+async function createTest(test:bodyTest) {
+    const { name, pdfUrl, categoryId, teacherId, disciplineId } = test;
+
+    const checkName = await testRepository.findTestName(name);
+    if (checkName) throw forbiddenError("test name already in use");
+
+    const checkCategory = await categoryRepository.findCategory(categoryId);
+    if (!checkCategory) throw notFoundError("category not found");
+
+    const checkTeacher = await teacherRepository.findTeacher(teacherId);
+    if (!checkTeacher) throw notFoundError("teacher not found");
+
+    const checkDiscipline = await disciplineRepository.findDiscipline(disciplineId);
+    if (!checkDiscipline) throw notFoundError("discipline not found");
+
+    const checkTeacherDiscipline = await teacherRepository.findTeacherDiscipline(teacherId,disciplineId);
+    if (!checkTeacherDiscipline) throw notFoundError("Discipline/Teacher relation doesnt exist");
+    
+    const query = await testRepository.createTest({
+        name,
+        pdfUrl,
+        categoryId,
+        teacherDisciplineId:checkTeacherDiscipline.id
+    });
 
     return query;
 }

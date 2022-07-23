@@ -1,10 +1,10 @@
 import { query, Request, Response } from "express";
 import { badRequestError } from "../Middlewares/errorHandler.js";
-import { createTest } from "../Repositories/testRepository.js";
+import { bodyTest, createTest } from "../Repositories/testRepository.js";
 import { testServices } from "../Services/testService.js";
 
 export async function addTest(req:Request, res:Response) {
-    const test:createTest = req.body;
+    const test:bodyTest = req.body;
 
     const create = await testServices.createTest(test);
     
