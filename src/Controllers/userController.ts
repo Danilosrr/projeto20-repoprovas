@@ -8,7 +8,7 @@ export async function signUp(req:Request, res:Response){
     const bodyVerified = await userServices.comparePasswords(newUser);
     const signUp = await userServices.signUpService(bodyVerified);
 
-    res.send(signUp);
+    res.status(201).send(signUp);
 }
 
 export async function signIn(req:Request, res:Response){

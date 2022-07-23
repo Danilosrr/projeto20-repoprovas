@@ -8,7 +8,7 @@ export async function addTest(req:Request, res:Response) {
 
     const create = await testServices.createTest(test);
     
-    res.send(create);
+    res.status(201).send(create);
 }
 
 export async function queryTests(req:Request, res:Response){
