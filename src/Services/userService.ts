@@ -27,7 +27,7 @@ async function signInService(createUser:createUser){
     if (!passwordMatch) throw forbiddenError("incorrect password");
 
     const token = jwt.sign({...createUser,id:emailFound.id}, process.env.JWT_KEY);
-    return token
+    return { token: token }
 };
 
 async function comparePasswords(user:bodyUser){
