@@ -22,7 +22,8 @@ async function queryByDiscipline(){
                                 name: data.name,
                                 pdfUrl: data.pdfUrl,
                                 category: data.category.name,
-                                teacher: data.teacherDiscipline.teacher.name
+                                teacher: data.teacherDiscipline.teacher.name,
+                                discipline: data.teacherDiscipline.discipline.name
                             }
                         })
                     }).flat(1)

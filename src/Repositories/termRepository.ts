@@ -17,7 +17,10 @@ async function queryByTerm(){
                                 category: {},
                                 teacherDiscipline: {
                                     select: {
-                                        teacher: {}
+                                        teacher: {},
+                                        discipline: { select:{
+                                            name: true
+                                        }}
                                     }
                                 }
                             }
