@@ -20,7 +20,7 @@ function passwordLength(number:number){
 function randomEmail(){
     return faker.internet.email();
 }
-export const userFactory = {
+export const userData = {
     passwordNumeric,
     passwordLength,
     randomEmail,
