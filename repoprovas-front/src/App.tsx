@@ -34,6 +34,10 @@ function App() {
                   path="/app/pessoas-instrutoras"
                   element={<Instructors/>}
                 />
+                <Route
+                  path="/app/adicionar"
+                  element={<></>}
+                />
               </Route>
             </Routes>
           </BrowserRouter>

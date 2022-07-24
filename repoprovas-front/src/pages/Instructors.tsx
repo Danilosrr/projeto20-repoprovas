@@ -142,4 +142,5 @@ function CategorieAccordions({
     </Accordion>
   )
 }
+
 export default Instructors;

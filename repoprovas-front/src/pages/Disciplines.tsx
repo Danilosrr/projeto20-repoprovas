@@ -167,17 +167,4 @@ function CategorieAccordions({
   )
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 export default Disciplines;
