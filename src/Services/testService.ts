@@ -11,9 +11,11 @@ async function queryByDiscipline(){
 
     const disciplines = query.map( term => {
         return { 
-            term: term.number,
+            id: term.id,
+            number: term.number,
             disciplines: term.Discipline.map( discipline =>{
                 return {
+                    id: discipline.id,
                     name: discipline.name,
                     tests: discipline.TeachersDisciplines.map( test =>{
                         return test.Test.map(data =>{
@@ -35,6 +37,11 @@ async function queryByDiscipline(){
     disciplines.forEach(el => {
         el.disciplines.forEach(discipline => {
             discipline.tests = groupBy('category')(discipline.tests);
+        });
+    });
+    disciplines.forEach(el => {
+        el.disciplines.forEach(category => {
+            category.tests = Object.keys(category.tests).map((key) => { return category.tests[key]});
         });
     });
 
@@ -66,7 +73,9 @@ async function queryByTeacher() {
     teachers.forEach(el => {
         el.tests = groupBy('category')(el.tests);
     });
-    
+    teachers.forEach(el => {
+        el.tests = Object.keys(el.tests).map((key) => { return el.tests[key]});
+    });
 
     return teachers;
 }
