@@ -1,7 +1,7 @@
-#   <img width="30" src="https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f5c3-fe0f.svg"/> DrivenPass  
+#   <img width="30" src="https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f5c3-fe0f.svg"/> Repoprovas  
 
 <p>
-    DrivenPass is a application where a user can share and search tests, wether by disciplines or professors. 
+    Repoprovas is a application where a user can share and search tests, wether by disciplines or professors. 
 </p>
 
 ## Usage
