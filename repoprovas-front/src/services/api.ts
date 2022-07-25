@@ -101,6 +101,19 @@ async function getDisciplines(token: string) {
   return baseAPI.get< Disciplines[] >("/disciplines", config);
 }
 
+async function postTest( testInfo:PostTest, token: string) {
+  const config = getConfig(token);
+  return await baseAPI.post("/tests", testInfo, config);
+}
+
+interface PostTest {
+  name: string; 
+  pdfUrl: string;
+  categoryId: number;
+  teacherId: number;
+  disciplineId: number;
+}
+
 const api = {
   signUp,
   signIn,
@@ -108,6 +121,7 @@ const api = {
   getTestsByTeacher,
   getCategories,
   getDisciplines,
+  postTest
 };
 
 export default api;

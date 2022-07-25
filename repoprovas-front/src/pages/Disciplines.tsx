@@ -154,6 +154,7 @@ function CategorieAccordions({
         { tests.map( test=>{ return (
           <Typography key={test.id} color="#878787">
             <Link
+              rel="noopener noreferrer"
               href={test.pdfUrl}
               target="_blank"
               underline="none"

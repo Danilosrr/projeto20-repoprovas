@@ -41,8 +41,8 @@ interface FormData {
     name: string;
     pdfUrl: string;
     categoryId: string;
+    disciplineId: string,
     teacherId: string;
-    disciplineId: string;
 }
   
 function Adicionar() {
@@ -69,8 +69,8 @@ function Adicionar() {
       name: '',
       pdfUrl: '',
       categoryId: '',
+      disciplineId:'',
       teacherId: '',
-      disciplineId: ''
     });
 
     function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -80,8 +80,8 @@ function Adicionar() {
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         setMessage(null);
-    
-        if (!formData?.name || !formData?.pdfUrl || !formData?.categoryId || !formData?.teacherId) {
+
+        if (!formData?.name || !formData?.pdfUrl || !formData?.categoryId || !formData?.teacherId || !formData?.disciplineId) {
           setMessage({ type: "error", text: "Todos os campos são obrigatórios!" });
           return;
         }
@@ -90,13 +90,22 @@ function Adicionar() {
             name: formData.name, 
             pdfUrl: formData.pdfUrl, 
             categoryId: parseInt(formData.categoryId), 
-            teacherId: formData.teacherId
+            teacherId: parseInt(formData.teacherId), 
+            disciplineId: parseInt(formData.disciplineId), 
         };
 
         try {
-            //await api.postTest(testInfo,token);
-            //postTest(token);
-            //navigate("/app/disciplinas");
+            if(!token) return
+            await api.postTest(testInfo,token);
+            setMessage({ type: "success", text: "Prova enviada com sucesso!" });
+            console.log(formData);
+            setFormData({
+                name: '',
+                pdfUrl: '',
+                categoryId: '',
+                disciplineId:'',
+                teacherId: '',
+            })
           } catch (error: Error | AxiosError | any) {
             if (error.response) {
               setMessage({
@@ -130,6 +139,8 @@ function Adicionar() {
                     value={formData.name}
                 />
                 <TextField
+                    type='url'
+                    placeholder="https://..."
                     name="pdfUrl"
                     sx={styles.input}
                     label="pdf url"
@@ -158,9 +169,25 @@ function Adicionar() {
                     onChange={handleInputChange}
                     value={formData.disciplineId}
                 >
-                    {disciplines.map((query) => (
-                        <MenuItem key={query.discipline.name} value={`${query.discipline.id}`}>
-                            {query.discipline.name}
+                    {disciplines.map((discipline) => (
+                        <MenuItem key={discipline.discipline.name} value={`${discipline.discipline.id}`}>
+                            {discipline.discipline.name}
+                        </MenuItem>
+                    ))}
+                </TextField>
+                <TextField
+                    select
+                    name="teacherId"
+                    sx={styles.input}
+                    label="Teacher"
+                    onChange={handleInputChange}
+                    value={formData.teacherId}
+                    disabled={!formData.disciplineId}
+                >
+                    {
+                    disciplines.filter( el => el.discipline.id===+formData.disciplineId).map((discipline) => (
+                        <MenuItem key={discipline.teacher.name} value={`${discipline.teacher.id}`}>
+                            {discipline.teacher.name}
                         </MenuItem>
                     ))}
                 </TextField>
