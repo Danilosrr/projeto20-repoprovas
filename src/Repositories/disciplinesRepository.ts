@@ -6,6 +6,20 @@ async function findDiscipline(id:number){
     });
 }
 
+async function findDisciplinesAndTeachers(){
+    return await prisma.teachersDisciplines.findMany({
+        select:{ 
+            discipline:{
+                select: { id: true, name: true}
+            },
+            teacher:{ 
+                select: { id: true, name: true }
+            }
+        }
+    });
+}
+
 export const disciplineRepository = {
+    findDisciplinesAndTeachers,
     findDiscipline
 }
