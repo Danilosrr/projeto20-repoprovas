@@ -4,6 +4,7 @@ import {
     TextField,
     Typography,
     MenuItem,
+    Divider,
 } from "@mui/material";
 import { AxiosError } from "axios";
 import React, { useEffect, useState } from "react";
@@ -15,7 +16,6 @@ import api, { Category, Disciplines } from "../services/api";
   
 const styles = {
     container: {
-      marginTop: "180px",
       width: "460px",
       display: "flex",
       flexDirection: "column",
@@ -45,7 +45,33 @@ interface FormData {
     teacherId: string;
 }
   
+
 function Adicionar() {
+    const navigate = useNavigate();
+
+    return (
+        <>
+            <Box sx={{ height: "56px", marginBottom: "25px", width: "450px" }} />
+            <Divider sx={{ marginBottom: "35px" }} />
+            <Box sx={{ marginX: "auto", width: "700px", marginBottom: "35px"}}>
+                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", }}>
+                    <Button variant="outlined" onClick={() => navigate("/app/disciplinas")}>
+                        Disciplinas
+                    </Button>
+                    <Button variant="outlined" onClick={() => navigate("/app/pessoas-instrutoras")}>
+                        Pessoa Instrutora
+                    </Button>
+                    <Button variant="contained" onClick={() => navigate("/app/adicionar")}>
+                        Adicionar
+                    </Button>
+                </Box>
+                <TestForms/>
+            </Box>
+        </>
+    )
+}
+
+function TestForms() {
     const { token } = useAuth();
     const { setMessage } = useAlert();
     const navigate = useNavigate();
@@ -123,6 +149,8 @@ function Adicionar() {
     }
 
     return (
+        <>
+
         <Form onSubmit={handleSubmit}>
             <Box sx={styles.container}>
                 <Typography sx={styles.title} variant="h4" component="h1">
@@ -199,7 +227,8 @@ function Adicionar() {
                 </Box>
             </Box>
         </Form>
+        </>
     );
 }
-  
+
 export default Adicionar
