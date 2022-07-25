@@ -53,6 +53,11 @@ export interface Category {
   name: string;
 }
 
+export interface Disciplines {
+  discipline: Teacher;
+  teacher: Teacher;
+}
+
 export interface Test {
   id: number;
   name: string;
@@ -91,12 +96,18 @@ async function getCategories(token: string) {
   return baseAPI.get< Category[] >("/categories", config);
 }
 
+async function getDisciplines(token: string) {
+  const config = getConfig(token);
+  return baseAPI.get< Disciplines[] >("/disciplines", config);
+}
+
 const api = {
   signUp,
   signIn,
   getTestsByDiscipline,
   getTestsByTeacher,
   getCategories,
+  getDisciplines,
 };
 
 export default api;
