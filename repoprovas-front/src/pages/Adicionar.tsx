@@ -159,7 +159,7 @@ function Adicionar() {
                     value={formData.disciplineId}
                 >
                     {disciplines.map((query) => (
-                        <MenuItem value={`${query.discipline.id}`}>
+                        <MenuItem key={query.discipline.name} value={`${query.discipline.id}`}>
                             {query.discipline.name}
                         </MenuItem>
                     ))}
